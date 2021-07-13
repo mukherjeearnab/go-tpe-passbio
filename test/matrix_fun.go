@@ -8,13 +8,14 @@ import (
 
 func main() {
 	seed := 10
+	matSize := 3
 
 	// 1. Generate a n×n matrix of random values.
-	data := make([]float64, 9)
+	data := make([]float64, matSize*matSize)
 	for i := range data {
 		data[i] = float64(rand.Intn(seed))
 	}
-	A := mat.NewDense(3, 3, data)
+	A := mat.NewDense(matSize, matSize, data)
 	fmt.Printf("A:\n")
 	matPrint(A)
 
@@ -32,6 +33,30 @@ func main() {
 	I.Mul(A, &A_Inv)
 	fmt.Printf("I matrix:\n")
 	matPrint(&I)
+
+	// 4. Generate Diagonal Matrix from a vector of size n
+	DiagMat := mat.NewDiagDense(len(data), data)
+	fmt.Printf("Diag Matrix:\n")
+	matPrint(DiagMat)
+
+	// 5. Generate a Random Lower-Triangular Matrix
+	LowTriMat := mat.NewTriDense(matSize, false, data)
+	fmt.Printf("Lower-Triangular Matrix:\n")
+	matPrint(LowTriMat)
+
+	// 6. Set Diagonal Entries of a matrix as x=1
+	var Diag1Matrix mat.Dense
+	Diag1Matrix.CloneFrom(LowTriMat)
+	for i := 0; i < matSize; i++ {
+		Diag1Matrix.Set(i, i, 1)
+	}
+	fmt.Printf("Lower-Triangular Matrix with Diagonal Elements as 1:\n")
+	matPrint(&Diag1Matrix)
+
+	// 7. Generate Trace of a matrix
+	ATrace := A.Trace()
+	fmt.Printf("Trace of Matrix (A):\n")
+	fmt.Printf("%f", ATrace)
 }
 
 func matPrint(X mat.Matrix) {
