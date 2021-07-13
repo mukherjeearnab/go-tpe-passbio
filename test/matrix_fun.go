@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"gonum.org/v1/gonum/mat"
 	"math/rand"
@@ -77,6 +78,21 @@ func main() {
 	Permuted.Mul(A, &PermutationMatrix)
 	fmt.Printf("Permuted Matrix:\n")
 	matPrint(&Permuted)
+
+	// 11. Convert Matrix as Byte[] and Base64-String
+	MatBytes, err := Permuted.MarshalBinary()
+	if err != nil {
+		fmt.Printf("BinMarshall Error: %v", err)
+	}
+	MatString := base64.StdEncoding.EncodeToString(MatBytes)
+	fmt.Printf("Base64 String: %s\n", MatString)
+
+	// 12. Convert Base64-String String to Matrix
+	RecvBytes, _ := base64.StdEncoding.DecodeString(MatString)
+	var RecvMatrix mat.Dense
+	RecvMatrix.UnmarshalBinary(RecvBytes)
+	fmt.Printf("Recovered Matrix:\n")
+	matPrint(&RecvMatrix)
 }
 
 func matPrint(X mat.Matrix) {
