@@ -56,7 +56,27 @@ func main() {
 	// 7. Generate Trace of a matrix
 	ATrace := A.Trace()
 	fmt.Printf("Trace of Matrix (A):\n")
-	fmt.Printf("%f", ATrace)
+	fmt.Printf("%f\n", ATrace)
+
+	// 8. Generate Permutation 'pi' from Original Order
+	Permutation := make([]int, matSize)
+	for i := 0; i < matSize; i++ {
+		Permutation[i] = i
+	}
+	rand.Shuffle(matSize, func(i, j int) { Permutation[i], Permutation[j] = Permutation[j], Permutation[i] })
+	fmt.Printf("Permutation: %v\n", Permutation)
+
+	// 9. Generate Permutation Matrix from Permutation 'pi'
+	var PermutationMatrix mat.Dense
+	PermutationMatrix.Permutation(matSize, Permutation)
+	fmt.Printf("Permuation Matrix:\n")
+	matPrint(&PermutationMatrix)
+
+	// 10. Generate Permuted Matrix from Permutation Matrix
+	var Permuted mat.Dense
+	Permuted.Mul(A, &PermutationMatrix)
+	fmt.Printf("Permuted Matrix:\n")
+	matPrint(&Permuted)
 }
 
 func matPrint(X mat.Matrix) {
