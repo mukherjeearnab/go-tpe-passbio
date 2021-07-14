@@ -5,8 +5,8 @@ import (
 )
 
 // Parent Struct
-type Config struct {
-	config SetupConfig
+type TPE struct {
+	setup SetupConfig
 }
 
 // Config Struct
@@ -16,25 +16,25 @@ type SetupConfig struct {
 }
 
 // Set n and theta
-func (c *SetupConfig) Setup(n int, theta float64) {
-	c.N = n
-	c.Theta = theta
+func (tpe *TPE) Setup(n int, theta float64) {
+	tpe.setup.N = n
+	tpe.setup.Theta = theta
 }
 
 // Get n and theta
-func (c *SetupConfig) GetConfig() (n int, theta float64) {
-	return c.N, c.Theta
+func (tpe *TPE) GetConfig() (n int, theta float64) {
+	return tpe.setup.N, tpe.setup.Theta
 }
 
 // Export Setup Vars as JSON string
-func (c *SetupConfig) ExportSetup() string {
+func (tpe *TPE) ExportSetup() string {
 	// Marshal Struct to JSON string
-	configJSON, _ := json.Marshal(c)
+	configJSON, _ := json.Marshal(tpe.setup)
 	return string(configJSON)
 }
 
 // Import Setup Vars from JSON string
-func (c *SetupConfig) ImportSetup(JSON string) {
+func (tpe *TPE) ImportSetup(JSON string) {
 	// Unmarshal and load Config
-	json.Unmarshal([]byte(JSON), c)
+	json.Unmarshal([]byte(JSON), &tpe.setup)
 }
