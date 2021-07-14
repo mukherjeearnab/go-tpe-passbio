@@ -9,11 +9,6 @@ import (
 	"time"
 )
 
-// Parent Struct
-type Encryption struct {
-	cipher mat.Matrix
-}
-
 // Encrypt vector --> x
 func (tpe *TPE) Encrypt(X []float64) string {
 	// Initial Check (Check Vector Length)
