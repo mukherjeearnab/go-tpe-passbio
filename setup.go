@@ -19,8 +19,18 @@ func (c *SetupConfig) Setup(n int, theta float64) {
 	c.Theta = theta
 }
 
+// Get n and theta
+func (c *SetupConfig) GetConfig() (n int, theta float64) {
+	return c.N, c.Theta
+}
+
 // Export Setup Vars as JSON string
 func (c *SetupConfig) ExportSetup() string {
 	configJSON, _ := json.Marshal(c)
 	return string(configJSON)
+}
+
+// Import Setup Vars from JSON string
+func (c *SetupConfig) ImportSetup(JSON string) {
+	json.Unmarshal([]byte(JSON), c)
 }
