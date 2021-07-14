@@ -1,4 +1,4 @@
-module mukherjeearnab/gotpe
+module github.com/mukherjeearnab/gotpe
 
 go 1.16
 
