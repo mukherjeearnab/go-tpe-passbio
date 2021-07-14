@@ -16,6 +16,11 @@ type Encryption struct {
 
 // Encrypt vector --> x
 func (tpe *TPE) Encrypt(X []float64) string {
+	// Initial Check (Check Vector Length)
+	if len(X) != tpe.setup.N {
+		fmt.Printf("ERROR! Vector (%d) length not equal to Set (%d) Length", len(X), tpe.setup.N)
+	}
+
 	// Set Random Seed
 	rand.Seed(time.Now().UnixNano())
 
