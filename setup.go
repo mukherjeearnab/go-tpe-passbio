@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 )
 
+// Parent Struct
 type Config struct {
 	config SetupConfig
 }
 
+// Config Struct
 type SetupConfig struct {
 	N     int     `json:"n"`
 	Theta float64 `json:"theta"`
@@ -26,11 +28,13 @@ func (c *SetupConfig) GetConfig() (n int, theta float64) {
 
 // Export Setup Vars as JSON string
 func (c *SetupConfig) ExportSetup() string {
+	// Marshal Struct to JSON string
 	configJSON, _ := json.Marshal(c)
 	return string(configJSON)
 }
 
 // Import Setup Vars from JSON string
 func (c *SetupConfig) ImportSetup(JSON string) {
+	// Unmarshal and load Config
 	json.Unmarshal([]byte(JSON), c)
 }
