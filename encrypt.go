@@ -13,7 +13,8 @@ import (
 func (tpe *TPE) Encrypt(X []float64) string {
 	// Initial Check (Check Vector Length)
 	if len(X) != tpe.setup.N {
-		fmt.Printf("ERROR! Vector (%d) length not equal to Set (%d) Length", len(X), tpe.setup.N)
+		fmt.Printf("ERROR! Vector (%d) length not equal to Set (%d) Length.\n", len(X), tpe.setup.N)
+		return "ERROR!"
 	}
 
 	// Set Random Seed

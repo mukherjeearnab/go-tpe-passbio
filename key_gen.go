@@ -84,6 +84,22 @@ func (tpe *TPE) ImportKey(JSON string) {
 	var M_2i mat.Dense
 	M_2i.UnmarshalBinary(importKey.M_2i)
 
+	// Initial Check for Dimentions
+	c_r, c_c := M_1.Dims()
+	t_r, t_c := M_2.Dims()
+	if c_r != c_c || t_r != t_c {
+		fmt.Println("ERROR! Matrices need to be Square Matrices.")
+		return
+	}
+	if c_r != t_r || c_r != tpe.setup.N+3 || t_r != tpe.setup.N+3 {
+		fmt.Println("ERROR! Matrices need same Dimentions |OR| Matrices need to be of Set Dimentions.")
+		return
+	}
+	if len(importKey.Pi) != tpe.setup.N+3 {
+		fmt.Println("ERROR! Permutation Must be of Set Dimentions.")
+		return
+	}
+
 	// Set sk Vars
 	tpe.key.M_1 = &M_1
 	tpe.key.M_1i = &M_1i
