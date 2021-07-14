@@ -7,11 +7,6 @@ import (
 	"math/rand"
 )
 
-// Parent Struct
-type SecretKey struct {
-	key Key
-}
-
 // Key Struct
 type Key struct {
 	M_1  mat.Matrix `json:"m1"`
@@ -31,50 +26,50 @@ type exportKey struct {
 }
 
 // Generate New Secret Key
-func (sk *SecretKey) KeyGen(seed int64, matrixSize int) {
+func (tpe *TPE) KeyGen(seed int64) {
 	// Set Random Seed
 	rand.Seed(seed)
 
 	// Generate Random Non-singular Matrices
-	sk.key.M_1, sk.key.M_1i = generateMatrix(matrixSize)
-	sk.key.M_2, sk.key.M_2i = generateMatrix(matrixSize)
+	tpe.key.M_1, tpe.key.M_1i = generateMatrix(tpe.setup.N + 3)
+	tpe.key.M_2, tpe.key.M_2i = generateMatrix(tpe.setup.N + 3)
 
 	// Generate Permutation 'pi'
-	sk.key.Pi = generatePermutation(matrixSize)
+	tpe.key.Pi = generatePermutation(tpe.setup.N + 3)
 }
 
 // Export Secret Key as JSON string
-func (sk *SecretKey) ExportKey() string {
+func (tpe *TPE) ExportKey() string {
 	// Marshal mat.Matrix to byte[]
-	M_1Bytes, err := mat.DenseCopyOf(sk.key.M_1).MarshalBinary()
+	M_1Bytes, err := mat.DenseCopyOf(tpe.key.M_1).MarshalBinary()
 	if err != nil {
 		fmt.Printf("BinMarshall Error: %v", err)
 		return ""
 	}
-	M_1iBytes, err := mat.DenseCopyOf(sk.key.M_1i).MarshalBinary()
+	M_1iBytes, err := mat.DenseCopyOf(tpe.key.M_1i).MarshalBinary()
 	if err != nil {
 		fmt.Printf("BinMarshall Error: %v", err)
 		return ""
 	}
-	M_2Bytes, err := mat.DenseCopyOf(sk.key.M_2).MarshalBinary()
+	M_2Bytes, err := mat.DenseCopyOf(tpe.key.M_2).MarshalBinary()
 	if err != nil {
 		fmt.Printf("BinMarshall Error: %v", err)
 		return ""
 	}
-	M_2iBytes, err := mat.DenseCopyOf(sk.key.M_2i).MarshalBinary()
+	M_2iBytes, err := mat.DenseCopyOf(tpe.key.M_2i).MarshalBinary()
 	if err != nil {
 		fmt.Printf("BinMarshall Error: %v", err)
 		return ""
 	}
 
 	// Marshal byte[] struct to JSON string
-	expKey := exportKey{M_1Bytes, M_1iBytes, M_2Bytes, M_2iBytes, sk.key.Pi}
+	expKey := exportKey{M_1Bytes, M_1iBytes, M_2Bytes, M_2iBytes, tpe.key.Pi}
 	keyJSON, _ := json.Marshal(expKey)
 	return string(keyJSON)
 }
 
 // Import Secret Key from JSON string
-func (sk *SecretKey) ImportKey(JSON string) {
+func (tpe *TPE) ImportKey(JSON string) {
 	// JSON Unmarshal
 	var importKey exportKey
 	json.Unmarshal([]byte(JSON), &importKey)
@@ -90,11 +85,11 @@ func (sk *SecretKey) ImportKey(JSON string) {
 	M_2i.UnmarshalBinary(importKey.M_2i)
 
 	// Set sk Vars
-	sk.key.M_1 = &M_1
-	sk.key.M_1i = &M_1i
-	sk.key.M_2 = &M_2
-	sk.key.M_2i = &M_2i
-	sk.key.Pi = importKey.Pi
+	tpe.key.M_1 = &M_1
+	tpe.key.M_1i = &M_1i
+	tpe.key.M_2 = &M_2
+	tpe.key.M_2i = &M_2i
+	tpe.key.Pi = importKey.Pi
 }
 
 /* ***************************

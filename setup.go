@@ -7,6 +7,7 @@ import (
 // Parent Struct
 type TPE struct {
 	setup SetupConfig
+	key   Key
 }
 
 // Config Struct
