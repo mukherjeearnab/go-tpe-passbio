@@ -6,12 +6,12 @@ import (
 
 // Parent Struct
 type TPE struct {
-	setup SetupConfig
-	key   Key
+	setup setupConfig
+	key   key
 }
 
 // Config Struct
-type SetupConfig struct {
+type setupConfig struct {
 	N     int     `json:"n"`
 	Theta float64 `json:"theta"`
 }

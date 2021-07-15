@@ -7,8 +7,8 @@ import (
 	"math/rand"
 )
 
-// Key Struct
-type Key struct {
+// key Struct
+type key struct {
 	M_1  mat.Matrix `json:"m1"`
 	M_2  mat.Matrix `json:"m2"`
 	M_1i mat.Matrix `json:"m1i"`
@@ -16,7 +16,7 @@ type Key struct {
 	Pi   []int      `json:"pi"`
 }
 
-// Export Key Format Struct
+// Export key Format Struct
 type exportKey struct {
 	M_1  []byte `json:"m1"`
 	M_2  []byte `json:"m2"`
@@ -25,7 +25,7 @@ type exportKey struct {
 	Pi   []int  `json:"pi"`
 }
 
-// Generate New Secret Key
+// Generate New Secret key
 func (tpe *TPE) KeyGen(seed int64) {
 	// Set Random Seed
 	rand.Seed(seed)
@@ -38,7 +38,7 @@ func (tpe *TPE) KeyGen(seed int64) {
 	tpe.key.Pi = generatePermutation(tpe.setup.N + 3)
 }
 
-// Export Secret Key as JSON string
+// Export Secret key as JSON string
 func (tpe *TPE) ExportKey() string {
 	// Marshal mat.Matrix to byte[]
 	M_1Bytes, err := mat.DenseCopyOf(tpe.key.M_1).MarshalBinary()
@@ -68,7 +68,7 @@ func (tpe *TPE) ExportKey() string {
 	return string(keyJSON)
 }
 
-// Import Secret Key from JSON string
+// Import Secret key from JSON string
 func (tpe *TPE) ImportKey(JSON string) {
 	// JSON Unmarshal
 	var importKey exportKey
