@@ -118,7 +118,7 @@ func generateMatrix(matrixSize int) (a, aInv mat.Matrix) {
 		// Generate Random slice
 		data := make([]float64, matrixSize*matrixSize)
 		for i := range data {
-			data[i] = float64(rand.Int())
+			data[i] = rand.Float64()
 		}
 
 		// Generate Random Matrix
