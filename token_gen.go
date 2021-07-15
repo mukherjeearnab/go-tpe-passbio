@@ -35,7 +35,7 @@ func (tpe *TPE) TokenGen(Y []float64) string {
 	// Step 3: Permute y' to pi(y') = y''
 	Y_dd := make([]float64, len(Y_dash))
 	for i := 0; i < len(Y_dash); i++ {
-		Y_dd[tpe.key.Pi[i]] = Y_dash[i]
+		Y_dd[i] = Y_dash[tpe.key.Pi[i]]
 	}
 
 	// Step 4: Transform y'' to a Diagonal Matrix with diag(Matrix) = y''

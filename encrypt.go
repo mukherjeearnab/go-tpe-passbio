@@ -36,7 +36,7 @@ func (tpe *TPE) Encrypt(X []float64) string {
 	// Step 3: Permute x' to pi(x') = x''
 	X_dd := make([]float64, len(X_dash))
 	for i := 0; i < len(X_dash); i++ {
-		X_dd[tpe.key.Pi[i]] = X_dash[i]
+		X_dd[i] = X_dash[tpe.key.Pi[i]]
 	}
 
 	// Step 4: Transform x'' to a Diagonal Matrix with diag(Matrix) = x''
