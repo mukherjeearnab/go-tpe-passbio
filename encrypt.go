@@ -31,7 +31,7 @@ func (tpe *TPE) Encrypt(X []float64) string {
 	}
 	X_dash[len(X)] = -1 * beta * tpe.setup.Theta
 	X_dash[len(X)+1] = rx
-	X_dash[len(X)] = 0
+	X_dash[len(X)+2] = 0
 
 	// Step 3: Permute x' to pi(x') = x''
 	X_dd := make([]float64, len(X_dash))

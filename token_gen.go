@@ -30,7 +30,7 @@ func (tpe *TPE) TokenGen(Y []float64) string {
 	}
 	Y_dash[len(Y)] = alpha
 	Y_dash[len(Y)+1] = 0
-	Y_dash[len(Y)] = ry
+	Y_dash[len(Y)+2] = ry
 
 	// Step 3: Permute y' to pi(y') = y''
 	Y_dd := make([]float64, len(Y_dash))

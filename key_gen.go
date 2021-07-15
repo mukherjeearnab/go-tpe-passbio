@@ -30,11 +30,11 @@ func (tpe *TPE) KeyGen(seed int64) {
 	// Set Random Seed
 	rand.Seed(seed)
 
-	// Generate Random Non-singular Matrices
+	// Step 1: Generate Random Non-singular Matrices
 	tpe.key.M_1, tpe.key.M_1i = generateMatrix(tpe.setup.N + 3)
 	tpe.key.M_2, tpe.key.M_2i = generateMatrix(tpe.setup.N + 3)
 
-	// Generate Permutation 'pi'
+	// Step 2: Generate Permutation 'pi'
 	tpe.key.Pi = generatePermutation(tpe.setup.N + 3)
 }
 
