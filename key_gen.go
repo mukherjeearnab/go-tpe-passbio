@@ -63,7 +63,7 @@ func (tpe *TPE) ExportKey() string {
 	}
 
 	// Marshal byte[] struct to JSON string
-	expKey := exportKey{M_1Bytes, M_1iBytes, M_2Bytes, M_2iBytes, tpe.key.Pi}
+	expKey := exportKey{M_1Bytes, M_2Bytes, M_1iBytes, M_2iBytes, tpe.key.Pi}
 	keyJSON, _ := json.Marshal(expKey)
 	return string(keyJSON)
 }
