@@ -17,7 +17,7 @@ func main() {
 
 	defer f.Close()
 
-	_, err2 := f.WriteString("Size,Encrypt,Token,Decrypt")
+	_, err2 := f.WriteString("Size,Encrypt,Token,Decrypt\n")
 
 	if err2 != nil {
 		log.Fatal(err2)
