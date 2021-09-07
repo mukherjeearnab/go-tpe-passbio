@@ -9,6 +9,11 @@ import (
 )
 
 func main() {
+	START := 1200
+	STOP := 2000
+	INTERVAL := 100
+	ROUNDS := 1
+
 	f, err := os.Create("benchmark.csv")
 
 	if err != nil {
@@ -23,19 +28,19 @@ func main() {
 		log.Fatal(err2)
 	}
 
-	for N := 100; N <= 2000; N = N + 100 {
+	for N := START; N <= STOP; N = N + INTERVAL {
 		T_Enc := int64(0)
 		T_Tok := int64(0)
 		T_Dec := int64(0)
-		for T := 0; T < 10; T++ {
+		for T := 0; T < ROUNDS; T++ {
 			e, t, d := runTest(N)
 			T_Enc = T_Enc + e
 			T_Tok = T_Tok + t
 			T_Dec = T_Dec + d
 		}
-		T_Enc = T_Enc / 10
-		T_Tok = T_Tok / 10
-		T_Dec = T_Dec / 10
+		T_Enc = T_Enc / int64(ROUNDS)
+		T_Tok = T_Tok / int64(ROUNDS)
+		T_Dec = T_Dec / int64(ROUNDS)
 		out := fmt.Sprintf("%d,%d,%d,%d\n", N, T_Enc, T_Tok, T_Dec)
 
 		_, err2 := f.WriteString(out)
