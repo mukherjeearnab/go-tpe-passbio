@@ -12,7 +12,7 @@ func main() {
 	START := 5
 	STOP := 50
 	INTERVAL := 5
-	ROUNDS := 10
+	ROUNDS := 1000
 
 	f, err := os.Create("benchmark.csv")
 
