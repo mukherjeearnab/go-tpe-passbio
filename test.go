@@ -1,6 +1,6 @@
 package main
 
 func main() {
-	runLatencyTest()
-	// runMemTest()
+	// runLatencyTest()
+	runMemTest()
 }

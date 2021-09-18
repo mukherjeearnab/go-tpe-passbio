@@ -19,56 +19,60 @@ func runMemTest() {
 }
 
 func MemTestBench(N_size int) {
-	PrintMemUsage("Start . . . .")
+	p_a, p_ta, p_sys := PrintMemUsage("Start . . . .", 0, 0, 0)
 
 	// Init TPE instance
 	var TPE tpe.TPE
 
 	// Setup TPE instance
 	TPE.Setup(N_size, 28.1)
-	PrintMemUsage("TPE.Setup Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("TPE.Setup Phase", p_a, p_ta, p_sys)
 
 	// Generate a new Secret Key
 	TPE.KeyGen(1999)
-	PrintMemUsage("TPE.KeyGen Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("TPE.KeyGen Phase", p_a, p_ta, p_sys)
 
 	// Create Vector X
 	x := make([]float64, N_size)
 	for i := range x {
 		x[i] = 1
 	}
-	PrintMemUsage("X DEF Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("X DEF Phase", p_a, p_ta, p_sys)
 
 	// Encrypt Vector X using Secret Key
 	cipher := TPE.Encrypt(x)
-	PrintMemUsage("TPE.Encrypt Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("TPE.Encrypt Phase", p_a, p_ta, p_sys)
 
 	// Create Vector Y
 	y := make([]float64, N_size)
 	for i := range x {
 		y[i] = 2
 	}
-	PrintMemUsage("Y DEF Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("Y DEF Phase", p_a, p_ta, p_sys)
 
 	// Generate a new Token using Y and Secret Key
 	token := TPE.TokenGen(y)
-	PrintMemUsage("TPE.TokenGen Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("TPE.TokenGen Phase", p_a, p_ta, p_sys)
 
 	// Decrypt Cipher and obtain result
 	TPE.Decrypt(cipher, token)
-	PrintMemUsage("TPE.Decrypt Phase")
+	p_a, p_ta, p_sys = PrintMemUsage("TPE.Decrypt Phase", p_a, p_ta, p_sys)
 }
 
 // Function to print Memory Usage
-func PrintMemUsage(testName string) {
+func PrintMemUsage(testName string, p_a uint64, p_ta uint64, p_sys uint64) (uint64, uint64, uint64) {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	// For info on each, see: https://golang.org/pkg/runtime/#MemStats
+
+	// Gen Current Values
+	Alloc, TotalAlloc, Sys := bToMb(m.Alloc)-p_a, bToMb(m.TotalAlloc)-p_ta, bToMb(m.Sys)-p_sys
 	fmt.Println("TEST: " + testName)
-	fmt.Printf("Alloc = %v KB", bToMb(m.Alloc))
-	fmt.Printf("\tTotalAlloc = %v KB", bToMb(m.TotalAlloc))
-	fmt.Printf("\tSys = %v KB", bToMb(m.Sys))
+	fmt.Printf("Alloc = %v KB", Alloc)
+	fmt.Printf("\tTotalAlloc = %v KB", TotalAlloc)
+	fmt.Printf("\tSys = %v KB", m.Sys)
 	fmt.Printf("\tNumGC = %v\n", m.NumGC)
+
+	return Alloc, TotalAlloc, Sys
 }
 
 // Convert Bytes to MegaBytes
